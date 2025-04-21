@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGPT FileBot</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f5f5f5; }
+    #response { margin-top: 1rem; white-space: pre-line; background: #fff; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h2>Chat With GPT-4 + File Upload</h2>
+  <form id="chatForm">
+    <input type="text" id="message" name="message" placeholder="پیامت رو بنویس" required>
+    <input type="file" id="file" name="file">
+    <button type="submit">ارسال</button>
+  </form>
+  <div id="response"></div>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      document.getElementById("response").innerText = data.reply;
+    });
+  </script>
+</body>
+</html>
